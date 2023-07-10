@@ -37,3 +37,4 @@ STATS*
 cmake-build-debug
 *.iml
 *.xml
+*.idea
