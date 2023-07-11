@@ -12,15 +12,8 @@
 
 #define TESTCNT 1000
 
-std::mutex lock;
-
-void log_message(std::string const& str) {
-    std::lock_guard<std::mutex> l(lock);
-    std::cerr << str << "\n";
-}
-
 std::size_t test(matrix const& m, std::size_t const& cnt, double const& stn_ratio, std::size_t const& t, bool log = false) {
-    std::size_t error = 0;
+    std::size_t errors = 0;
     std::vector<std::future<bool>> futures(cnt);
     for (std::size_t i = 0; i < cnt; i++) {
         futures[i] = std::async(std::launch::async, [&](){
@@ -34,9 +27,9 @@ std::size_t test(matrix const& m, std::size_t const& cnt, double const& stn_rati
         });
     }
     for (std::future<bool>& f : futures) {
-        error += f.get();
+        errors += f.get();
     }
-    return error;
+    return errors;
 }
 
 int main() {
@@ -53,12 +46,12 @@ int main() {
         for (std::size_t q = 0; q < 27; q++) {
             double stn_ratio = -0.25 + to_double(q) * 0.25;
             std::size_t all = 0;
-            std::size_t correct = 0;
-            while (correct == 0 && all < 50 * TESTCNT) {
-                correct += test(m, TESTCNT, stn_ratio, t, true);
+            std::size_t errors = 0;
+            while (errors == 0 && all < 50 * TESTCNT) {
+                errors += test(m, TESTCNT, stn_ratio, t, true);
                 all += TESTCNT;
             }
-            std::cout << "ОСШ=" << stn_ratio << ", p_error=" << to_double(correct) / to_double(all) << ", all=" << all << std::endl;
+            std::cout << "ОСШ=" << stn_ratio << ", p_error=" << to_double(errors) / to_double(all) << ", all=" << all << std::endl;
         }
         std::cerr << "t=" << t << ", time=" << DIFF(start) << " ms\n";
         std::cout << "\n";

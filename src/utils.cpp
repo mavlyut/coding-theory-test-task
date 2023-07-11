@@ -2,6 +2,7 @@
 // Created by mavlyut on 07/07/23.
 //
 
+#include <mutex>
 #include "include/utils.h"
 
 std::vector<bool>& operator+=(std::vector<bool>& lhs, std::vector<bool> const& rhs) {
@@ -56,4 +57,11 @@ bool operator==(std::vector<bool> const& lhs, std::vector<bool> const& rhs) {
 
 double to_double(std::size_t const& x) {
     return static_cast<double>(x);
+}
+
+std::mutex lock;
+
+void log_message(std::string const& str) {
+    std::lock_guard<std::mutex> l(lock);
+    std::cerr << str << "\n";
 }

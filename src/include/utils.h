@@ -30,6 +30,8 @@ bool operator==(std::vector<bool> const& lhs, std::vector<bool> const& rhs);
 
 double to_double(std::size_t const& x);
 
+void log_message(std::string const& str);
+
 #define now std::chrono::steady_clock::now
 #define DIFF(t1) std::chrono::duration_cast<std::chrono::milliseconds>(now() - t1).count()
 
