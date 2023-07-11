@@ -32,7 +32,7 @@ double to_double(std::size_t const& x);
 
 void log_message(std::string const& str);
 
-#define now std::chrono::steady_clock::now
+#define now std::chrono::system_clock::now
 #define DIFF(t1) std::chrono::duration_cast<std::chrono::milliseconds>(now() - t1).count()
 
 

@@ -17,3 +17,5 @@ target_link_libraries(collect order_statistics)
 
 add_executable(main main.cpp)
 target_link_libraries(main order_statistics)
+
+#add_compile_definitions(LOG)
